@@ -15,16 +15,16 @@ export class UserSearcherComponent implements OnInit {
   userForm: FormGroup;
   userNameControl: AbstractControl;
   user: any;
-  userRepos = [];
-  mockeduserRepos = [];
+  userRepos: any = [];
   userOrgs = [];
   loading: boolean;
+  reposClicked: boolean;
+  loadingRepos: boolean;
   imageLoaded: boolean;
 
   // Variables for pagination
-  pageIndex = 0;
-  pageSize = 10;
-  pageSizeOptions: number[] = [10, 25];
+  pageIndex = 1;
+  count: 10;
 
   // Variables for calls
   public BASE_URL = 'https://api.github.com';
@@ -35,20 +35,9 @@ export class UserSearcherComponent implements OnInit {
     public formBuilder: FormBuilder,
   ) {
     this.loading = false;
+    this.loadingRepos = false;
+    this.reposClicked = false;
     this.imageLoaded = false;
-    this.mockeduserRepos = [
-      {name: 'Repotest', languaje: 'JS'},
-      {name: 'Repotest2', languaje: 'JS'},
-      {name: 'Repotest3', languaje: 'JS'},
-      {name: 'Repotest4', languaje: 'JS'},
-      {name: 'Repotest5', languaje: 'JS'},
-      {name: 'Repotest6', languaje: 'JS'},
-      {name: 'Repotest7', languaje: 'JS'},
-      {name: 'Repotest8', languaje: 'JS'},
-      {name: 'Repotest9', languaje: 'JS'},
-      {name: 'Repotest10', languaje: 'JS'},
-      {name: 'Repotest11', languaje: 'Angular'}
-    ];
   }
 
   ngOnInit(): void {
@@ -66,8 +55,6 @@ export class UserSearcherComponent implements OnInit {
 
   public findUser() {
     delete this.user;
-    delete this.userRepos;
-
     if (this.userForm.valid) {
       this.loading = true;
       const targetUser = this.userNameControl.value;
@@ -75,7 +62,6 @@ export class UserSearcherComponent implements OnInit {
         this.user = data.user;
         if (data.orgs.length > 0) {
         }
-        this.formatUserDate(this.user.updated_at);
         this.loading = false;
 
       }, (err) => {
@@ -94,29 +80,14 @@ export class UserSearcherComponent implements OnInit {
   }
 
   public seeUserRepos() {
+    this.reposClicked = true;
     if (this.user) {
+      this.loadingRepos = true;
       this.getRepos(this.user.login).then((data) => {
         this.userRepos = data;
-        console.log(this.userRepos);
+        this.loadingRepos = false;
       });
     }
-  }
-
-  // Date comes from API as an ISO string- this method formats it to dd/mm/yyy
-  public formatUserDate(date: string) {
-    const dateToFormat = new Date(date);
-    const year = (dateToFormat.getFullYear()).toString();
-    let month = (dateToFormat.getMonth() + 1).toString();
-    let day = (dateToFormat.getDate()).toString();
-
-    if (day.length < 2) {
-      day = '0' + day;
-    }
-    if (month.length < 2) {
-      month = '0' + month;
-    }
-
-    this.user.updated_at = day + '-' + month + '-' + year;
   }
 
   public getRepos(username) {

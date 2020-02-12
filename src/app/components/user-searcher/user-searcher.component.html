@@ -74,21 +74,30 @@
 
         <div class="data-item">
           <span>Last activity</span>
-          <p>{{user.updated_at}}</p>
+          <p>{{user.updated_at.split('T')[0].split('-').reverse().join('-')}}</p>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="repo-box">
+  <div class="repo-box" *ngIf="reposClicked">
     <h3>User's repositories</h3>
-    <div class="list">
-      <ul>
-        <li *ngFor="let repo of mockeduserRepos">
+    <app-spinner *ngIf="loadingRepos"></app-spinner>
+    <div class="list" *ngIf="userRepos.length > 0">
+
+        <div class="listitem" *ngFor="let repo of userRepos | paginate: {
+              itemsPerPage: 5,
+              currentPage: pageIndex,
+              totalItems: userRepos.length}">
           <h4>{{repo.name}}</h4>
-          <p>{{repo.language}}</p>
-        </li>
-      </ul>
+          <p>Language or framework: <strong>{{repo.language ? repo.language : 'None detected'}}</strong></p>
+          <p>Created on: {{repo.created_at.split('T')[0].split('-').reverse().join('-')}},
+            last updated: {{repo.created_at.split('T')[0].split('-').reverse().join('-')}}</p>
+        </div>
+
+      <div class="text-right">
+        <pagination-controls (pageChange)="pageIndex = $event"></pagination-controls>
+      </div>
     </div>
   </div>
 </div>

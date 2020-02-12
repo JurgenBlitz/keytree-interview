@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { UserSearcherComponent } from './components/user-searcher/user-searcher.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppSpinnerComponent } from './shared/app-spinner/app-spinner.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AppSpinnerComponent } from './shared/app-spinner/app-spinner.component'
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgxPaginationModule
   ],
   exports: [
     AppSpinnerComponent
