@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="search-box">
+    <span>Type the name of a GitHub user</span>
+    <form id="searcher-form" [formGroup]="userForm" (keydown.enter)="findUser()">
+      <input type="text" name="userName" formControlName="userName">
+
+      <button (click)="findUser()">
+        Search
+      </button>
+    </form>
+  
+    <div class="form-error" *ngIf="userNameControl.invalid && (userNameControl.dirty || userNameControl.touched)">
+      <span class="error-message">
+        Watch out!
+      </span>
+      <p>
+        GitHub usernames cannot contain:
+      </p>
+      <ul>
+        <li>Blank spaces</li>
+        <li>Multiple consecutive hyphens</li>
+        <li>More than 40 characters</li>
+      </ul>
+      <p>Please check the provided input.</p>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <app-spinner *ngIf="loading"></app-spinner>
+    <!-- Template for the initialization of the page/app -->
+    <div class="info-box__start" *ngIf="!user && !loading && !errorMessage">
+      <div class="image-container">
+        <img src="../../../assets/images/octocat-detective.png">
+      </div>
+      <p>No information to display yet</p>
+      <p>Use the search box to find a user</p>
+    </div>
+
+    <!-- Template for errors -->
+    <div class="info-box__error" *ngIf="!user && !loading && errorMessage">
+      <div class="image-container">
+        <img src="../../../assets/images/octocat-error.png">
+      </div>
+      <p class="error-type">{{errorMessage}}</p>
+      <p>{{errorMessageLine2}}</p>
+    </div>
+
+    <!-- Template for the user's info -->
+    <div class="info-box__userfound" *ngIf="user && !loading">
+      <h3>Is this the user you were looking for?</h3>
+      <div class="avatar-container">
+        <a href="{{user.html_url}}">
+          <img src="{{user.html_url}}.png?size=200">
+        </a>
+      </div>
+      
+      <div class="user-data">
+        <div class="data-item">
+          <span>Username</span>
+          <p>{{user.login}}</p>
+        </div>
+        
+        <div class="data-item">
+          <span>Public repositories</span>
+          <p>{{user.public_repos}}</p>
+          <button (click)="seeUserRepos()">See repos ></button>
+        </div>
+
+        <div class="data-item">
+          <span>Organizations</span>
+          <p>{{user.public_repos}}</p>
+        </div>
+
+        <div class="data-item">
+          <span>Last activity</span>
+          <p>{{user.updated_at}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
