@@ -21,6 +21,11 @@ export class UserSearcherComponent implements OnInit {
   loading: boolean;
   imageLoaded: boolean;
 
+  // Variables for pagination
+  pageIndex = 0;
+  pageSize = 10;
+  pageSizeOptions: number[] = [10, 25];
+
   // Variables for calls
   public BASE_URL = 'https://api.github.com';
   public errorMessage: string;

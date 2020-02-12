@@ -8,7 +8,7 @@
         Search
       </button>
     </form>
-  
+
     <div class="form-error" *ngIf="userNameControl.invalid && (userNameControl.dirty || userNameControl.touched)">
       <span class="error-message">
         Watch out!
@@ -53,13 +53,13 @@
           <img src="{{user.html_url}}.png?size=200">
         </a>
       </div>
-      
+
       <div class="user-data">
         <div class="data-item">
           <span>Username</span>
           <p>{{user.login}}</p>
         </div>
-        
+
         <div class="data-item">
           <span>Public repositories</span>
           <p>{{user.public_repos}}</p>
@@ -82,9 +82,13 @@
 
   <div class="repo-box">
     <h3>User's repositories</h3>
-    <div class="list" *ngFor="let repo of mockeduserRepos">
-      <h4>{{repo.name}}</h4>
-
+    <div class="list">
+      <ul>
+        <li *ngFor="let repo of mockeduserRepos">
+          <h4>{{repo.name}}</h4>
+          <p>{{repo.language}}</p>
+        </li>
+      </ul>
     </div>
   </div>
 </div>
