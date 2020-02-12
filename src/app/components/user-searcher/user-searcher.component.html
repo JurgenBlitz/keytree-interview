@@ -68,7 +68,8 @@
 
         <div class="data-item">
           <span>Organizations</span>
-          <p>{{user.public_repos}}</p>
+          <p *ngIf="userOrgs.length > 0">{{userOrgs}}</p>
+          <p *ngIf="userOrgs.length === 0">No organization to show</p>
         </div>
 
         <div class="data-item">
@@ -76,6 +77,14 @@
           <p>{{user.updated_at}}</p>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="repo-box">
+    <h3>User's repositories</h3>
+    <div class="list" *ngFor="let repo of mockeduserRepos">
+      <h4>{{repo.name}}</h4>
+
     </div>
   </div>
 </div>

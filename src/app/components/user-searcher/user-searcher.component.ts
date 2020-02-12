@@ -16,6 +16,7 @@ export class UserSearcherComponent implements OnInit {
   userNameControl: AbstractControl;
   user: any;
   userRepos = [];
+  mockeduserRepos = [];
   userOrgs = [];
   loading: boolean;
   imageLoaded: boolean;
@@ -30,6 +31,19 @@ export class UserSearcherComponent implements OnInit {
   ) {
     this.loading = false;
     this.imageLoaded = false;
+    this.mockeduserRepos = [
+      {name: 'Repotest', languaje: 'JS'},
+      {name: 'Repotest2', languaje: 'JS'},
+      {name: 'Repotest3', languaje: 'JS'},
+      {name: 'Repotest4', languaje: 'JS'},
+      {name: 'Repotest5', languaje: 'JS'},
+      {name: 'Repotest6', languaje: 'JS'},
+      {name: 'Repotest7', languaje: 'JS'},
+      {name: 'Repotest8', languaje: 'JS'},
+      {name: 'Repotest9', languaje: 'JS'},
+      {name: 'Repotest10', languaje: 'JS'},
+      {name: 'Repotest11', languaje: 'Angular'}
+    ];
   }
 
   ngOnInit(): void {
@@ -48,14 +62,13 @@ export class UserSearcherComponent implements OnInit {
   public findUser() {
     delete this.user;
     delete this.userRepos;
-    this.loading = true;
 
     if (this.userForm.valid) {
+      this.loading = true;
       const targetUser = this.userNameControl.value;
       this.getUserData(targetUser).then((data) => {
         this.user = data.user;
         if (data.orgs.length > 0) {
-          this.userOrgs.push(data.orgs);
         }
         this.formatUserDate(this.user.updated_at);
         this.loading = false;
@@ -70,6 +83,8 @@ export class UserSearcherComponent implements OnInit {
         }
         this.loading = false;
       });
+    } else {
+      return null;
     }
   }
 
